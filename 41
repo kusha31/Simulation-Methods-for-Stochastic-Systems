@@ -1,0 +1,44 @@
+#EE 511 - Project 1
+#Question 4 [Unfair Confidence...]
+
+import sys
+import random
+import numpy as py
+import matplotlib.pyplot as plt 
+
+heads = [3,9,7,8,7,8,9,4,8,7,5,7,7,8,7,2,8,10,6,10,7,5,8,9,4,9,3,8,7,4,8,5,5,7,6,4,4,7,3,7,5,6,6,4,8,6,6,6,7,5]
+
+tally=[]  #Probability of heads in each experiment,i.e.,# of Heads in 13 coin flips/13
+
+def bootstrap(x):       #input parameter is a list that has probability of heads in each experiment
+  samples = []            #create a list of 1000 samples by randomly selecting values from the input paramater list
+  
+  for i in range(0,1000):
+    samples = samples+[x[random.randint(0,(len(x)-1))]]
+ 
+  sorted_samples = sorted(samples)
+
+  lower = py.percentile(sorted_samples,2.5)
+  higher = py.percentile(sorted_samples,97.5)
+  interval = higher - lower
+
+  print('95% confidence interval for Probability of Heads is between ',lower,' and ',higher)
+  print('size of the confidence interval = ',interval)
+
+def main():
+  for i in range(0,len(heads)):
+    if i == 0 :
+      tally = [heads[i]/13.0]
+    else :  
+      tally = tally + [heads[i]/13.0]  
+    
+
+  print(heads)
+  print(tally) 
+  
+  bootstrap(tally) 
+ 
+
+
+if __name__=='__main__':
+  main()
